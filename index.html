@@ -15,17 +15,33 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f8f9fa;
+            background-color: white;
             padding: 20px;
         }
         
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        .lang-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+        }
+        
+        .lang-toggle:hover {
+            background-color: #0056CC;
         }
         
         h1 {
@@ -88,40 +104,88 @@
     </style>
 </head>
 <body>
+    <button class="lang-toggle" onclick="toggleLanguage()">中文</button>
+    
     <div class="container">
-        <h1>App Support</h1>
+        <h1 data-en="App Support" data-cn="应用支持">App Support</h1>
         
         <div class="section">
-            <h2>Need Help?</h2>
-            <p>We're here to help! If you have any questions, feedback, or need technical support, please don't hesitate to reach out.</p>
+            <h2 data-en="Need Help?" data-cn="需要帮助吗？">Need Help?</h2>
+            <p data-en="We're here to help! If you have any questions, feedback, or need technical support, please don't hesitate to reach out." 
+               data-cn="我们随时为您提供帮助！如果您有任何问题、反馈或需要技术支持，请随时联系我们。">
+               We're here to help! If you have any questions, feedback, or need technical support, please don't hesitate to reach out.
+            </p>
             <br>
             <a href="mailto:rejuiceapp.help@gmail.com?subject=App Support Request" class="contact-button">
-                📧 Contact Support
+                <span data-en="📧 Contact Support" data-cn="📧 联系支持">📧 Contact Support</span>
             </a>
         </div>
         
         <div class="section">
-            <h2>Frequently Asked Questions</h2>
+            <h2 data-en="Frequently Asked Questions" data-cn="常见问题">Frequently Asked Questions</h2>
+            
             
             <div class="faq-item">
-                <div class="faq-question">The app is crashing, what should I do?</div>
-                <div class="faq-answer">Try restarting the app or your device. If the issue persists, please contact us with your device model and iOS version.</div>
+                <div class="faq-question" data-en="The app is crashing, what should I do?" data-cn="应用崩溃了，我该怎么办？">The app is crashing, what should I do?</div>
+                <div class="faq-answer" data-en="Try restarting the app or your device. If the issue persists, please contact us with your device model and iOS version." 
+                     data-cn="尝试重新启动应用或您的设备。如果问题仍然存在，请联系我们并提供您的设备型号和 iOS 版本。">
+                     Try restarting the app or your device. If the issue persists, please contact us with your device model and iOS version.
+                </div>
             </div>
             
             <div class="faq-item">
-                <div class="faq-question">How do I delete my data?</div>
-                <div class="faq-answer">You can delete app data by uninstalling the app from your device. All local data will be removed.</div>
+                <div class="faq-question" data-en="How do I delete my data?" data-cn="如何删除我的数据？">How do I delete my data?</div>
+                <div class="faq-answer" data-en="You can delete app data by uninstalling the app from your device. All local data will be removed." 
+                     data-cn="您可以通过从设备卸载应用来删除应用数据。所有本地数据都会被移除。">
+                     You can delete app data by uninstalling the app from your device. All local data will be removed.
+                </div>
             </div>
         </div>
         
         <div class="section">
-            <h2>Privacy</h2>
-            <p>We respect your privacy and only collect data necessary to improve our app. For more details, please see our Privacy Policy in the app.</p>
+            <h2 data-en="Privacy" data-cn="隐私">Privacy</h2>
+            <p data-en="We respect your privacy and only collect data necessary to improve our app. For more details, please see our " 
+               data-cn="我们尊重您的隐私，仅收集改善应用所必需的数据。更多详情，请查看我们的">
+               We respect your privacy and only collect data necessary to improve our app. For more details, please see our 
+               <a href="privacy.html" data-en="Privacy Policy" data-cn="隐私政策">Privacy Policy</a>.
+            </p>
         </div>
         
         <div class="footer">
-            <p>© 2025 Rejuice App("鲜榨生活"). All rights reserved.</p>
+            <p data-en="© 2024 Your App Name. All rights reserved." data-cn="© 2025 Rejuice (鲜榨生活)APP。保留所有权利。">© 2025 Rejuice (鲜榨生活)APP. All rights reserved.</p>
         </div>
     </div>
+
+    <script>
+        let currentLang = localStorage.getItem('language') || 'en';
+        
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'cn' : 'en';
+            localStorage.setItem('language', currentLang);
+            updateLanguage();
+            updateToggleButton();
+        }
+        
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-en][data-cn]');
+            elements.forEach(element => {
+                const text = element.getAttribute(`data-${currentLang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+        }
+        
+        function updateToggleButton() {
+            const button = document.querySelector('.lang-toggle');
+            button.textContent = currentLang === 'en' ? '中文' : 'EN';
+        }
+        
+        // 页面加载时应用保存的语言设置
+        document.addEventListener('DOMContentLoaded', function() {
+            updateLanguage();
+            updateToggleButton();
+        });
+    </script>
 </body>
 </html>
